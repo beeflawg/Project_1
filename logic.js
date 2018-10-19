@@ -137,6 +137,7 @@ connectionsRef.on(
 
     $("#tbody tr:nth-child(n+10)").remove();
     $('#tbody').prepend('<tr><td>' + sv.songName+ '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
+    $('#lyrics').text(sv.lyrics);
     // Handle the errors
   },
   function(errorObject) {
