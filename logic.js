@@ -95,10 +95,9 @@ $("#submit-data").on("click", function(event) {
             album: album,
             releaseDate: releaseDate,
             plays: plays,
-            lyrics: lyrics
+            lyrics: lyrics,
+            dateAdded: firebase.database.ServerValue.TIMESTAMP
           });
-
-
       },
       error: function (jqXHR, textStatus, errorThrown) {
           console.log(jqXHR);
@@ -127,13 +126,6 @@ connectionsRef.on(
     // storing the snapshot.val() in a variable for convenience
     var sv = snapshot.val();
 
-    // Console.loging the last search
-    console.log(sv.artistName);
-    console.log(sv.songName);
-    console.log(sv.album);
-    console.log(sv.releaseDate); 
-    console.log(sv.plays);
-    console.log(sv.lyrics);
 
     $("#tbody tr:nth-child(n+10)").remove();
     $('#tbody').prepend('<tr><td>' + sv.songName+ '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
