@@ -48,6 +48,7 @@ var songName = "";
 var album = "";
 var releaseDate = 0;
 var plays = 0;
+var lyrics = "";
 
 // Capture Button Click
 $("#submit-data").on("click", function(event) {
@@ -61,19 +62,63 @@ $("#submit-data").on("click", function(event) {
     .val()
     .trim();
   
+  //Musixmatch api call for lyrics
+  // change to get information from firebase
+
+  // var artist = artistName;
+  // var song = songName;
+  
+  // var apiKey = f03b80c7f0c4d5244de46680bbd7fc9f;
+
+  $.ajax({
+      type: "GET",
+      data: {
+          apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
+          q_track: songName,
+          q_artist: artistName,
+          format: "jsonp",
+          callback: "jsonp_callback"
+      },
+      url: "https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
+      dataType: "jsonp",
+      jsonpCallback: 'jsonp_callback',
+      contentType: 'application/json',
+      success: function (response) {
+
+          // console.log(response);
+          // console.log(response.message.body.lyrics.lyrics_body);
+          lyrics = response.message.body.lyrics.lyrics_body;
+          // console.log("LYRICS: " + lyrics);
+          connectionsRef.push({
+            artistName: artistName,
+            songName: songName,
+            album: album,
+            releaseDate: releaseDate,
+            plays: plays,
+            lyrics: lyrics
+          });
+
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+      }
+  });
+
+  
 
   // Code for handling the push
-  connectionsRef.push({
-    artistName: artistName,
-    songName: songName,
-    album: album,
-    releaseDate: releaseDate,
-    plays: plays
-  });
+  // connectionsRef.push({
+  //   artistName: artistName,
+  //   songName: songName,
+  //   album: album,
+  //   releaseDate: releaseDate,
+  //   plays: plays,
+  //   lyrics: lyrics
+  // });
 });
-
-
-
 
 // Firebase watcher .on("child_added"
 connectionsRef.on(
@@ -82,14 +127,13 @@ connectionsRef.on(
     // storing the snapshot.val() in a variable for convenience
     var sv = snapshot.val();
 
-
     // Console.loging the last search
     console.log(sv.artistName);
     console.log(sv.songName);
     console.log(sv.album);
     console.log(sv.releaseDate); 
     console.log(sv.plays);
-
+    console.log(sv.lyrics);
 
     $("#tbody tr:nth-child(n+10)").remove();
     $('#tbody').prepend('<tr><td>' + sv.songName+ '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
