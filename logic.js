@@ -83,17 +83,23 @@ connectionsRef.on(
     var sv = snapshot.val();
 
 
-    // Console.loging the last user's data
+    // Console.loging the last search
     console.log(sv.artistName);
     console.log(sv.songName);
     console.log(sv.album);
     console.log(sv.releaseDate); 
     console.log(sv.plays);
 
-    $('#tbody').prepend('<tr><td>' + sv.artistName + '</td><td>' + sv.songName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
+
+    $("#tbody tr:nth-child(n+4)").remove();
+    $('#tbody').prepend('<tr><td>' + sv.songName+ '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
     // Handle the errors
   },
   function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
   }
 );
+
+/*
+$("#tbody tr:nth-child(n+4)").remove();
+*/
