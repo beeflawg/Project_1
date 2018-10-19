@@ -5,7 +5,7 @@
 <head>
 
   <meta charset="UTF-8">
-  <title>CoderBay</title>
+  <title>MusicScript</title>
 
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -13,52 +13,54 @@
   <!-- Bootstrap CDN-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <link rel="stylesheet" href="style.css">
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 </head>
 
 <body>
 
+
+
+  <br>
+
+  <!-- Jumbotron Title -->
+  <div class="jumbotron jum-style">
+    <h1 class="text-center text-white jum-text">MusicScript</h1>
+    <h3 class="text-center text-white jum-subtext">Search for your favorite song lyrics!</h3>
+  </div>
   <div class="container">
-
-    <br>
-
-    <!-- Jumbotron Title -->
-    <div class="jumbotron bg-dark">
-      <h1 class="text-center text-white">MusicScript</h1>
-      <h3 class="text-center text-white">Search for your favorite song lyrics!</h3>
-    </div>
-
     <div class="row pb-4">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-header">
-              Song Search
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="form-group row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <p class="header-border">Song Search</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="form-group col-6 fc-left">
                   <label for="artist-name">Artist Name:</label>
                   <input class="form-control" id="artist-name" type="text">
                 </div>
-                <div class="form-group row">
+                <div class="form-group col-6 fc-right">
                   <label for="song-name">Song: </label>
                   <input class="form-control" id="song-name" type="text">
                 </div>
-                <button class="btn btn-primary" id="submit-data" type="submit">Submit</button>
-              </form>
-            </div>
+              </div>
+              <button class="btn btn-lime" id="submit-data" type="submit">Submit</button>
+            </form>
           </div>
         </div>
-  
       </div>
+
+    </div>
 
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            Search History
+            <p class="header-border">Search History</p>
           </div>
         </div>
       </div>
@@ -73,12 +75,12 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">Artist</th>
                     <th scope="col">Song</th>
+                    <th scope="col">Artist</th>
                     <th scope="col">Album</th>
                     <th scope="col">Release Date</th>
                     <th scope="col">Plays</th>
-                    <th scope="col">(Lyrics Button)</th>
+                    <th scope="col">Lyrics</th>
                   </tr>
                 </thead>
                 <tbody id="tbody">
@@ -89,6 +91,37 @@
         </div>
       </div>
     </div>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <p class="header-border">Song Lyrics</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search History -->
+    <div class="row pb-4">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <span id="lyrics">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem doloribus ipsam
+                architecto, quae, qui officia corrupti eos eum in dolorum omnis quasi totam repellendus nemo tempora
+                perferendis molestiae culpa eaque? Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+                similique consequatur, nostrum neque obcaecati commodi iste minus enim nulla voluptatibus, eveniet
+                quisquam dignissimos officia sit impedit repellendus quam natus temporibus. Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. Esse perferendis ex quas, saepe maxime tempore illo aliquid fugiat error
+                consequuntur. Repellat porro quas ut architecto inventore necessitatibus sit harum aliquid.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   <!-- JavaScript -->
   <script src="logic.js"></script>
