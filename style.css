@@ -47,6 +47,12 @@ table {
     width: 100%;
     border-radius: 0px;
 }
+
+.btn-lyrics {
+    background: lime;
+    width: 50%;
+    border-radius: 0px;
+}
  
 .form-control {
     border-radius: 0px;
