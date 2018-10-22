@@ -52,12 +52,12 @@ table {
 
 .btn-lyrics {
     background: lime;
-    width: 50%;
     border-radius: 0px;
+    text-align: center;
 }
  
 .form-control {
-    border-radius: 0px;
+    border-radius: 10px;
     display: inline;
 }
  
@@ -79,4 +79,8 @@ canvas {
     z-index: -1000;
     margin: 0;
     padding: 0;
+}
+
+.btn {
+    border-radius: 10px;
 }
