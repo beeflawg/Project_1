@@ -52,12 +52,12 @@ table {
 
 .btn-lyrics {
     background: lime;
+    width: 100%;
     border-radius: 0px;
-    text-align: center;
 }
  
 .form-control {
-    border-radius: 10px;
+    border-radius: 0px;
     display: inline;
 }
  
@@ -81,6 +81,6 @@ canvas {
     padding: 0;
 }
 
-.btn {
-    border-radius: 10px;
+#tbody {
+    text-transform: capitalize;
 }
