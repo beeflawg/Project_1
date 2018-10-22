@@ -51,8 +51,13 @@ var plays = 0;
 var lyrics = "";
 
 // Capture Button Click
-$("#submit-data").on("click", function(event) {
+$("#submit-data").on("click", function (event) {
   event.preventDefault();
+
+  if ($("#artist-name").val() == "" || $("#song-name").val() == "") {
+    return;
+  }
+
 
   // Grabbed values from text boxes
   artistName = $("#artist-name")
@@ -61,95 +66,121 @@ $("#submit-data").on("click", function(event) {
   songName = $("#song-name")
     .val()
     .trim();
-  
-  //Musixmatch api call for lyrics
-  // change to get information from firebase
 
-  // var artist = artistName;
-  // var song = songName;
-  
-  // var apiKey = f03b80c7f0c4d5244de46680bbd7fc9f;
+  //Musixmatch api call for lyrics and other artist/track/album information
 
   $.ajax({
-      type: "GET",
-      data: {
+    type: "GET",
+    data: {
+      apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
+      q_track: songName,
+      q_artist: artistName,
+      format: "jsonp",
+      callback: "jsonp_callback"
+    },
+    url: "https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
+    dataType: "jsonp",
+    jsonpCallback: 'jsonp_callback',
+    contentType: 'application/json',
+    success: function (response) {
+
+      $.ajax({
+        type: "GET",
+        data: {
           apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
-          q_track: songName,
           q_artist: artistName,
           format: "jsonp",
           callback: "jsonp_callback"
-      },
-      url: "https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
-      dataType: "jsonp",
-      jsonpCallback: 'jsonp_callback',
-      contentType: 'application/json',
-      success: function (response) {
+        },
 
-          // console.log(response);
-          // console.log(response.message.body.lyrics.lyrics_body);
-          lyrics = response.message.body.lyrics.lyrics_body;
-          // console.log("LYRICS: " + lyrics);
-          connectionsRef.push({
-            artistName: artistName,
-            songName: songName,
-            album: album,
-            releaseDate: releaseDate,
-            plays: plays,
-            lyrics: lyrics,
-            dateAdded: firebase.database.ServerValue.TIMESTAMP
+        url: "https://api.musixmatch.com/ws/1.1/artist.search",
+        dataType: "jsonp",
+        jsonpCallback: 'jsonp_callback',
+        contentType: 'application/json',
+        success: function (artistSearch) {
+
+          $.ajax({
+            type: "GET",
+            data: {
+              apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
+              q_track: songName,
+              q_artist: artistName,
+              format: "jsonp",
+              callback: "jsonp_callback"
+            },
+            url: "https://api.musixmatch.com/ws/1.1/track.search",
+            dataType: "jsonp",
+            jsonpCallback: 'jsonp_callback',
+            contentType: 'application/json',
+            success: function (trackSearch) {
+
+
+              console.log(trackSearch);
+              console.log(artistSearch);
+              console.log(response);
+
+              artistName = trackSearch.message.body.track_list[0].track.artist_name
+              songName = trackSearch.message.body.track_list[0].track.track_name;
+              album = trackSearch.message.body.track_list[0].track.album_name;
+              lyrics = response.message.body.lyrics.lyrics_body;
+              releaseDate = trackSearch.message.body.track_list[0].track.first_release_date;
+      
+              connectionsRef.push({
+                artistName: artistName,
+                songName: songName,
+                album: album,
+                releaseDate: releaseDate,
+                plays: plays,
+                lyrics: lyrics
+              });
+            }
           });
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
-      }
+
+        }
+      });
+
+
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
   });
 
-  
-
-  // Code for handling the push
-  // connectionsRef.push({
-  //   artistName: artistName,
-  //   songName: songName,
-  //   album: album,
-  //   releaseDate: releaseDate,
-  //   plays: plays,
-  //   lyrics: lyrics
-  // });
 });
 
 // Firebase watcher .on("child_added"
 connectionsRef.on(
   "child_added",
-  function(snapshot) {
+  function (snapshot) {
     // storing the snapshot.val() in a variable for convenience
     var sv = snapshot.val();
     var addButton = "<button class='btn btn-lyrics' id='submit-lyrics' type='submit'>";
-  
+
 
     $("#tbody tr:nth-child(n+10)").remove();
-    
+
     // Console.loging the last user's data
     console.log(sv.artistName);
     console.log(sv.songName);
     console.log(sv.album);
-    console.log(sv.releaseDate); 
+    console.log(sv.releaseDate);
     console.log(sv.plays);
     console.log(sv.lyrics);
-    
+
 
     $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + addButton + "Show Lyrics" + '</tr>');
     $('#lyrics').text(sv.lyrics);
 
-    $("#submit-lyrics").on("click", function(submitLyrics){
+    $("#submit-lyrics").on("click", function (submitLyrics) {
       submitLyrics.preventDefault();
       $('#lyrics').text(sv.lyrics);
     })
-    
+
     // Handle the errors
   },
-  function(errorObject) {
+  function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
   }
 );
