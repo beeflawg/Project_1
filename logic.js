@@ -30,7 +30,7 @@ var connectedRef = database.ref(".info/connected");
   if (snap.val()) {
     // Add user to the connections list.
     var con = connectionsRef.push("");
-
+    
     // Remove user from the connection list when they disconnect.
     con.onDisconnect().remove();
   }
@@ -49,7 +49,65 @@ var album = "";
 var releaseDate = 0;
 var plays = 0;
 var lyrics = "";
+// **Arthur branch** 
+// i started my code apart from this one, but some of the variables are the same, the next variables are required for the rest of the code
+var queryURL = "https://api.spotify.com/v1/";
+// if you search on spotify for a song you will probably get more than 1 result and it might not be the one we're looking for
+// this next array and 'num' variable will be used to find the song we're looking for
+var artistArr = [];
+var num;
+// ajax call within a variable
+var search = function () {
+  // i commented this part out because it was used to get the id of the artist which for now we wont need, if we add anything that might need an id it will be ready here
+  // $.ajax({
+  //     url: queryURL + "search?",
+  //     method: "GET",
+  //     dataType: 'JSON',
+  //     data: {
+  //         q: artistName,
+  //         type: 'artist'
+  //     },
+  //     headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer  BQCggHnUcIXvS1Q2jJWnUCMGfWbqd3TryA5VHoa1Jn3NWgq5W_RDapNcSGl5JV5jlseZ_4-0ALSpHBJkJhVOjxQD8hOiTimsdrAOWiXPqteT-2XiLPB8QGLePeHvstN3yQsXZ2gYhxfpfyrcIiUlguKyg5qeFT8Q8O2vNzG8jKJJ1RT76t-uZDlS',
+  //     }
+  // }).then(function (response) {
+  //     var idNum = response.artists.items[0].id;
+  // });
 
+  // avjax call for the song
+  $.ajax({
+      url: queryURL + "search?",
+      method: "GET",
+      dataType: "JSON",
+      data: {
+          q: songName,
+          type: "track",
+      },
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer  BQCggHnUcIXvS1Q2jJWnUCMGfWbqd3TryA5VHoa1Jn3NWgq5W_RDapNcSGl5JV5jlseZ_4-0ALSpHBJkJhVOjxQD8hOiTimsdrAOWiXPqteT-2XiLPB8QGLePeHvstN3yQsXZ2gYhxfpfyrcIiUlguKyg5qeFT8Q8O2vNzG8jKJJ1RT76t-uZDlS'
+      }
+  }).then(function (response) {
+    // in case we receive many songs as part of our search, and the first one is not the one we are looking for
+    // these next lines of code look for the right song
+    // first we loop through the array that contains all search results
+      for (var i = 0; i < response.tracks.items.length; i++) {
+        // we push all the names of the artists that have songs with the same name as our searched song
+          artistArr.push(response.tracks.items[i].artists[0].name)
+          // we compare each item on our newly filled array of artists with the artist we searched for at the beggining of our search
+          if (artistArr.includes(artistName)) {
+            // if we find an artist that matches the same name of our search term 
+            // we get the index number of that array which will be the same index number of the object/array that we received from spotify
+              num = artistArr.indexOf(artistName);
+          }        
+      };
+      // this just confirms that we have the correct item
+      console.log(response.tracks.items[num]);
+  })
+}
 // Capture Button Click
 $("#submit-data").on("click", function(event) {
   event.preventDefault();
@@ -106,9 +164,8 @@ $("#submit-data").on("click", function(event) {
           console.log(errorThrown);
       }
   });
-
-  
-
+// **Arthur branch** within the same ajax call for the on click event, we call the search function
+search();
   // Code for handling the push
   // connectionsRef.push({
   //   artistName: artistName,
@@ -139,7 +196,7 @@ connectionsRef.on(
     console.log(sv.plays);
     console.log(sv.lyrics);
     
-
+// i would consider replacing the values of song name and artist name here with the results we get from spotify, so it displays the full name and a good format of the things we searched
     $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
     $('#lyrics').text(sv.lyrics);
     // Handle the errors
