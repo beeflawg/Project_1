@@ -7,6 +7,11 @@
   <meta charset="UTF-8">
   <title>MusicScript</title>
 
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.sound.js"></script>
+
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -31,7 +36,7 @@
 
 
   <!-- Jumbotron Title -->
-  <div class="jumbotron jum-style">
+  <div id="visualizer" class="jumbotron jum-style">
     <h1 class="text-center text-white jum-text">MusicScript</h1>
     <h3 class="text-center text-white jum-subtext">Search for your favorite song lyrics!</h3>
   </div>
@@ -131,6 +136,7 @@
   </div>
   <!-- JavaScript -->
   <script src="logic.js"></script>
+  <script src="visualizer.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
 </body>
