@@ -8,7 +8,7 @@ body {
 }
  
 .jum-style {
-  background: black;
+  background: transparent;
 }
  
 .jum-text {
@@ -65,4 +65,12 @@ table {
  
 .form-group {
     text-align: center;
+}
+
+canvas {
+    position: absolute;
+    top: 140px;
+    z-index: -1000;
+    margin: 0;
+    padding: 0;
 }
