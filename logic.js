@@ -125,14 +125,34 @@ connectionsRef.on(
   function(snapshot) {
     // storing the snapshot.val() in a variable for convenience
     var sv = snapshot.val();
-
+    var addButton = "<button class='btn btn-lyrics' id='submit-lyrics' type='submit'>";
+  
 
     $("#tbody tr:nth-child(n+10)").remove();
-    $('#tbody').prepend('<tr><td>' + sv.songName+ '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + "(Lyrics Button)" + '</tr>');
+    
+    // Console.loging the last user's data
+    console.log(sv.artistName);
+    console.log(sv.songName);
+    console.log(sv.album);
+    console.log(sv.releaseDate); 
+    console.log(sv.plays);
+    console.log(sv.lyrics);
+    
+
+    $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + addButton + "Show Lyrics" + '</tr>');
     $('#lyrics').text(sv.lyrics);
+
+    $("#submit-lyrics").on("click", function(submitLyrics){
+      submitLyrics.preventDefault();
+      $('#lyrics').text(sv.lyrics);
+    })
+    
     // Handle the errors
   },
   function(errorObject) {
     console.log("Errors handled: " + errorObject.code);
   }
 );
+
+
+
