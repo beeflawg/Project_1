@@ -95,10 +95,9 @@ $("#submit-data").on("click", function(event) {
             album: album,
             releaseDate: releaseDate,
             plays: plays,
-            lyrics: lyrics
+            lyrics: lyrics,
+            dateAdded: firebase.database.ServerValue.TIMESTAMP
           });
-
-
       },
       error: function (jqXHR, textStatus, errorThrown) {
           console.log(jqXHR);
@@ -120,9 +119,6 @@ $("#submit-data").on("click", function(event) {
   // });
 });
 
-
-
-
 // Firebase watcher .on("child_added"
 connectionsRef.on(
   "child_added",
@@ -132,6 +128,8 @@ connectionsRef.on(
     var addButton = "<button class='btn btn-lyrics' id='submit-lyrics' type='submit'>";
   
 
+    $("#tbody tr:nth-child(n+10)").remove();
+    
     // Console.loging the last user's data
     console.log(sv.artistName);
     console.log(sv.songName);
