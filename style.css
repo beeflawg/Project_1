@@ -52,7 +52,7 @@ table {
 
 .btn-lyrics {
     background: lime;
-    width: 50%;
+    width: 100%;
     border-radius: 0px;
 }
  
@@ -79,4 +79,8 @@ canvas {
     z-index: -1000;
     margin: 0;
     padding: 0;
+}
+
+#tbody {
+    text-transform: capitalize;
 }
