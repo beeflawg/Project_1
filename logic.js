@@ -46,7 +46,6 @@ var artistName = "";
 var songName = "";
 var album = "";
 var releaseDate = 0;
-var plays = 0;
 var lyrics = "";
 
 // **Arthur branch** 
@@ -218,7 +217,6 @@ $("#submit-data").on("click", function (event) {
             songName: songName,
             album: album,
             releaseDate: releaseDate,
-            plays: plays,
             lyrics: lyrics
 
           });
@@ -262,11 +260,10 @@ connectionsRef.on(
     console.log(sv.songName);
     console.log(sv.album);
     console.log(sv.releaseDate);
-    console.log(sv.plays);
     console.log(sv.lyrics);
 
 
-    $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + addButton + "Show Lyrics" + '</tr>');
+    $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td>' + '<td>' + addButton + "Show Lyrics" + '</tr>');
     $('#lyrics').text(sv.lyrics);
 
     $("#submit-lyrics").on("click", function (submitLyrics) {
@@ -279,4 +276,12 @@ connectionsRef.on(
   function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
   }
+
 );
+
+
+
+
+
+);
+
