@@ -30,7 +30,6 @@ var connectedRef = database.ref(".info/connected");
   if (snap.val()) {
     // Add user to the connections list.
     var con = connectionsRef.push("");
-
     // Remove user from the connection list when they disconnect.
     con.onDisconnect().remove();
   }
@@ -47,7 +46,6 @@ var artistName = "";
 var songName = "";
 var album = "";
 var releaseDate = 0;
-var plays = 0;
 var lyrics = "";
 
 // Capture Button Click
@@ -114,7 +112,6 @@ $("#submit-data").on("click", function (event) {
             songName: songName,
             album: album,
             releaseDate: releaseDate,
-            plays: plays,
             lyrics: lyrics
           });
         }
@@ -148,11 +145,10 @@ connectionsRef.on(
     console.log(sv.songName);
     console.log(sv.album);
     console.log(sv.releaseDate);
-    console.log(sv.plays);
     console.log(sv.lyrics);
 
 
-    $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td><td>' + sv.plays + '</td><td>' + addButton + "Show Lyrics" + '</tr>');
+    $('#tbody').prepend('<tr><td>' + sv.songName + '</td><td>' + sv.artistName + '</td><td>' + sv.album + '</td><td>' + sv.releaseDate + '</td>' + '<td>' + addButton + "Show Lyrics" + '</tr>');
     $('#lyrics').text(sv.lyrics);
 
     $("#submit-lyrics").on("click", function (submitLyrics) {
@@ -166,6 +162,7 @@ connectionsRef.on(
     console.log("Errors handled: " + errorObject.code);
   }
 );
+
 
 
 
