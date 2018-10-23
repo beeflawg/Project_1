@@ -66,7 +66,7 @@ $("#submit-data").on("click", function (event) {
     .val()
     .trim();
 
-  //Musixmatch api call for lyrics and other artist/track/album information
+  //Musixmatch api ajax call for lyrics and other artist/track/album information
 
   $.ajax({
     type: "GET",
@@ -87,56 +87,38 @@ $("#submit-data").on("click", function (event) {
         type: "GET",
         data: {
           apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
+          q_track: songName,
           q_artist: artistName,
           format: "jsonp",
           callback: "jsonp_callback"
         },
-
-        url: "https://api.musixmatch.com/ws/1.1/artist.search",
+        url: "https://api.musixmatch.com/ws/1.1/track.search",
         dataType: "jsonp",
         jsonpCallback: 'jsonp_callback',
         contentType: 'application/json',
-        success: function (artistSearch) {
-
-          $.ajax({
-            type: "GET",
-            data: {
-              apikey: "f03b80c7f0c4d5244de46680bbd7fc9f",
-              q_track: songName,
-              q_artist: artistName,
-              format: "jsonp",
-              callback: "jsonp_callback"
-            },
-            url: "https://api.musixmatch.com/ws/1.1/track.search",
-            dataType: "jsonp",
-            jsonpCallback: 'jsonp_callback',
-            contentType: 'application/json',
-            success: function (trackSearch) {
+        success: function (trackSearch) {
 
 
-              console.log(trackSearch);
-              console.log(artistSearch);
-              console.log(response);
+          console.log(trackSearch);
+          console.log(response);
 
-              artistName = trackSearch.message.body.track_list[0].track.artist_name
-              songName = trackSearch.message.body.track_list[0].track.track_name;
-              album = trackSearch.message.body.track_list[0].track.album_name;
-              lyrics = response.message.body.lyrics.lyrics_body;
-              releaseDate = trackSearch.message.body.track_list[0].track.first_release_date;
-      
-              connectionsRef.push({
-                artistName: artistName,
-                songName: songName,
-                album: album,
-                releaseDate: releaseDate,
-                plays: plays,
-                lyrics: lyrics
-              });
-            }
+          artistName = trackSearch.message.body.track_list[0].track.artist_name
+          songName = trackSearch.message.body.track_list[0].track.track_name;
+          album = trackSearch.message.body.track_list[0].track.album_name;
+          lyrics = response.message.body.lyrics.lyrics_body;
+          releaseDate = trackSearch.message.body.track_list[0].track.first_release_date;
+
+          connectionsRef.push({
+            artistName: artistName,
+            songName: songName,
+            album: album,
+            releaseDate: releaseDate,
+            plays: plays,
+            lyrics: lyrics
           });
-
         }
       });
+
 
 
     },
