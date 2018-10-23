@@ -57,7 +57,6 @@ var queryURL = "https://api.spotify.com/v1/";
 var artistArr = [];
 var num;
 // ajax call within a variable
-var search = function () {
   // i commented this part out because it was used to get the id of the artist which for now we wont need, if we add anything that might need an id it will be ready here
   // $.ajax({
   //     url: queryURL + "search?",
@@ -77,6 +76,23 @@ var search = function () {
   // });
 
   // ajax call for the song
+// Capture Button Click
+$("#submit-data").on("click", function (event) {
+  event.preventDefault();
+  
+  if ($("#artist-name").val() == "" || $("#song-name").val() == "") {
+    return;
+  }
+  
+  
+  // Grabbed values from text boxes
+  artistName = $("#artist-name")
+  .val()
+  .trim();
+  songName = $("#song-name")
+  .val()
+  .trim();
+  
   $.ajax({
       url: queryURL + "search?",
       method: "GET",
@@ -107,24 +123,6 @@ var search = function () {
       // this just confirms that we have the correct item
       console.log(response.tracks.items[num]);
   })
-}
-// Capture Button Click
-$("#submit-data").on("click", function (event) {
-  event.preventDefault();
-
-  if ($("#artist-name").val() == "" || $("#song-name").val() == "") {
-    return;
-  }
-
-
-  // Grabbed values from text boxes
-  artistName = $("#artist-name")
-    .val()
-    .trim();
-  songName = $("#song-name")
-    .val()
-    .trim();
-
   //Musixmatch api call for lyrics and other artist/track/album information
 
   $.ajax({
