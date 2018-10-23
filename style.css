@@ -8,7 +8,7 @@ body {
 }
  
 .jum-style {
-  background: black;
+  background: transparent;
 }
  
 .jum-text {
@@ -25,11 +25,13 @@ table {
     padding-left: 2%;
     padding-right: 3%;
 }
+
  
 .card {
     background:transparent;
     color: white;
 }
+
  
 .header-border{
     padding: 0;
@@ -43,6 +45,12 @@ table {
 }
  
 .btn-lime {
+    background: lime;
+    width: 100%;
+    border-radius: 0px;
+}
+
+.btn-lyrics {
     background: lime;
     width: 100%;
     border-radius: 0px;
@@ -63,4 +71,16 @@ table {
  
 .form-group {
     text-align: center;
+}
+
+canvas {
+    position: absolute;
+    top: 140px;
+    z-index: -1000;
+    margin: 0;
+    padding: 0;
+}
+
+#tbody {
+    text-transform: capitalize;
 }

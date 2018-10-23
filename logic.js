@@ -125,7 +125,10 @@ $("#submit-data").on("click", function (event) {
     .val()
     .trim();
 
-  //Musixmatch api call for lyrics and other artist/track/album information
+
+
+  //Musixmatch api ajax call for lyrics and other artist/track/album information
+
 
   $.ajax({
     type: "GET",
@@ -150,6 +153,7 @@ $("#submit-data").on("click", function (event) {
           format: "jsonp",
           callback: "jsonp_callback"
         },
+
 
         url: "https://api.musixmatch.com/ws/1.1/artist.search",
         dataType: "jsonp",
@@ -192,7 +196,34 @@ $("#submit-data").on("click", function (event) {
                 lyrics: lyrics
               });
             }
+
+        url: "https://api.musixmatch.com/ws/1.1/track.search",
+        dataType: "jsonp",
+        jsonpCallback: 'jsonp_callback',
+        contentType: 'application/json',
+        success: function (trackSearch) {
+
+
+          console.log(trackSearch);
+          console.log(response);
+
+          artistName = trackSearch.message.body.track_list[0].track.artist_name
+          songName = trackSearch.message.body.track_list[0].track.track_name;
+          album = trackSearch.message.body.track_list[0].track.album_name;
+          lyrics = response.message.body.lyrics.lyrics_body;
+          releaseDate = trackSearch.message.body.track_list[0].track.first_release_date;
+
+          connectionsRef.push({
+            artistName: artistName,
+            songName: songName,
+            album: album,
+            releaseDate: releaseDate,
+            plays: plays,
+            lyrics: lyrics
+
           });
+        }
+      });
 
         }
       });
@@ -205,8 +236,12 @@ $("#submit-data").on("click", function (event) {
       console.log(errorThrown);
     }
   });
+
 // **Arthur branch** within the same ajax call for the on click event, we call the search function
 search();
+
+
+
 });
 
 // Firebase watcher .on("child_added"
@@ -217,6 +252,8 @@ connectionsRef.on(
     var sv = snapshot.val();
     var addButton = "<button class='btn btn-lyrics' id='submit-lyrics' type='submit'>";
 
+
+    $("#tbody tr:nth-child(n+10)").remove();
 
     $("#tbody tr:nth-child(n+10)").remove();
 
